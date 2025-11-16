@@ -15,7 +15,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/vinodshivkumar4/maven.git'
+               // git 'https://github.com/vinodshivkumar4/maven.git'
             }
         }
 
