@@ -1,25 +1,37 @@
 pipeline {
     agent any
+
     tools {
         maven "maven"
     }
+
     stages {
-        stage('Compile') {
+        stage('Echo Version') {
             steps {
-                sh 'mvn compile'
+                sh 'echo print maven version'
+                sh 'mvn --version'
             }
         }
-        stage('Test') {
+
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/vinodshivkumar4/maven.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Unit Test') {
             steps {
                 sh 'mvn test'
             }
         }
-        stage('Build') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-    }
+    } // closes stages
+
     post {
         success {
             mail to: 'vinod.s.19.2001@gmail.com',
@@ -32,4 +44,4 @@ pipeline {
                  body: "Build failed! See details at ${env.BUILD_URL}"
         }
     }
-}
+} // closes pipeline
